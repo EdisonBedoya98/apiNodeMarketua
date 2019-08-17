@@ -1,24 +1,36 @@
 const express = require('express');
 const app = express();
 
-app.use(express.static(__dirname + '/publicy/'));
+app.use((req,res,next)=>{
+  res.header("Access-Control-Allow-Origin","*");
+  res.header("Access-Control-Allow-Headers","*");
+  if(req.method ==='OPTIONS'){
+    res.header('Access-Control-Allow-Methods','PUT,POST,PATCH,DELETE,GET');
+    return res.status(200).json({});
+  }
+  next();
+});
+
 
 app.get('/mensaje', function (req, res) {
+  console.log('peticion desde la API');
   res.setHeader('Content-Type', 'application/json');
-  res.end(JSON.stringify([{
+  res.send(JSON.stringify(
+    
+  [{
     id: 32,
-    name: "",
+    name: "asd",
     price: 0.0,
-    brand: "",
+    brand: "asd",
     thumbnail: "url",
     category: {
       cateogory_id: 23,
-      category_name: ""
+      category_name: "asd"
     },
     rating: 0.0,
     seller: {
       seller_id: 12,
-      seller_name: ""
+      seller_name: "asdsad"
     }
   },
   {
@@ -71,7 +83,8 @@ app.get('/mensaje', function (req, res) {
     }
   }
 
-  ]));
+  ]
+  ));
 });
 
 app.listen('3000', function () {
